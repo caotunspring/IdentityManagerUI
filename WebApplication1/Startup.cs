@@ -1,18 +1,12 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using IdentityManagerUI.Models;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.EntityFrameworkCore;
-using WebApplication1.Data;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using FileContextCore;
-using IdentityManagerUI.Models;
 using System.Security.Claims;
+using WebApplication1.Data;
 
 namespace WebApplication1
 {
@@ -28,7 +22,12 @@ namespace WebApplication1
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDbContext<ApplicationDbContext>(options => options.UseFileContextDatabase());
+           // services.AddDbContext<ApplicationDbContext>(options => options.UseFileContextDatabase());
+
+            services.AddDbContext<ApplicationDbContext>(options =>
+             options.UseSqlServer(
+                 Configuration.GetConnectionString("DefaultConnection")));
+
 
             services.AddDefaultIdentity<ApplicationUser>()
                 .AddRoles<ApplicationRole>()
